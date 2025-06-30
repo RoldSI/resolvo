@@ -3,6 +3,7 @@ use std::{
     num::NonZeroU32,
 };
 
+#[cfg(feature = "serde")]
 use serde::{Deserialize, Serialize};
 
 use crate::{Interner, internal::arena::ArenaId};
@@ -99,7 +100,8 @@ impl From<SolvableId> for u32 {
 }
 
 #[repr(transparent)]
-#[derive(Copy, Clone, PartialOrd, Ord, Eq, PartialEq, Debug, Hash, Serialize, Deserialize)]
+#[derive(Copy, Clone, PartialOrd, Ord, Eq, PartialEq, Debug, Hash)]
+#[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
 pub(crate) struct ClauseId(NonZeroU32);
 
 impl ClauseId {
@@ -122,6 +124,7 @@ impl ArenaId for ClauseId {
 }
 
 #[derive(Copy, Clone, Debug)]
+#[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
 pub(crate) struct LearntClauseId(u32);
 
 impl ArenaId for LearntClauseId {
@@ -167,6 +170,7 @@ impl ArenaId for DependenciesId {
 /// A unique identifier for a variable in the solver.
 #[repr(transparent)]
 #[derive(Copy, Clone, Debug, Eq, PartialEq, Hash, PartialOrd, Ord)]
+#[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
 pub struct VariableId(u32);
 
 impl VariableId {

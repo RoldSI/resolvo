@@ -6,6 +6,8 @@ use std::{
 };
 
 use elsa::FrozenMap;
+#[cfg(feature = "serde")]
+use serde::{Deserialize, Serialize};
 
 use crate::{
     Interner, NameId, Requirement,
@@ -47,6 +49,7 @@ use crate::{
 /// dependency resolution problem, and we try to keep the [`Clause`] enum small.
 /// A naive implementation would store a `Vec<Literal>`.
 #[derive(Copy, Clone, Debug)]
+#[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
 pub(crate) enum Clause {
     /// An assertion that the root solvable must be installed
     ///
@@ -322,6 +325,7 @@ impl Clause {
 /// variable are grouped together in a linked list, so it becomes easy to notify
 /// them all.
 #[derive(Clone)]
+#[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
 pub(crate) struct WatchedLiterals {
     /// The ids of the literals this clause is watching. A clause that is
     /// watching literals is always watching two literals, no more, no less.
@@ -483,6 +487,7 @@ impl WatchedLiterals {
 /// `Option<Literal>` is the same as a `Literal`.
 #[repr(transparent)]
 #[derive(Debug, Copy, Clone, Eq, PartialEq)]
+#[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
 pub(crate) struct Literal(NonZeroU32);
 
 impl Literal {

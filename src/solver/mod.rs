@@ -7,6 +7,8 @@ use elsa::FrozenMap;
 use encoding::Encoder;
 use indexmap::IndexMap;
 use itertools::Itertools;
+#[cfg(feature = "serde")]
+use serde::{Deserialize, Serialize};
 use std::{any::Any, fmt::Display, ops::ControlFlow};
 use variable_map::VariableMap;
 use watch_map::WatchMap;
@@ -120,6 +122,7 @@ impl<S: IntoIterator<Item = SolvableId>> Problem<S> {
 }
 
 #[derive(Default)]
+#[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
 pub(crate) struct Clauses {
     pub(crate) kinds: Vec<Clause>,
     watched_literals: Vec<Option<WatchedLiterals>>,
