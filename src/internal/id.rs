@@ -3,6 +3,8 @@ use std::{
     num::NonZeroU32,
 };
 
+use serde::{Deserialize, Serialize};
+
 use crate::{Interner, internal::arena::ArenaId};
 
 /// The id associated to a package name
@@ -97,7 +99,7 @@ impl From<SolvableId> for u32 {
 }
 
 #[repr(transparent)]
-#[derive(Copy, Clone, PartialOrd, Ord, Eq, PartialEq, Debug, Hash)]
+#[derive(Copy, Clone, PartialOrd, Ord, Eq, PartialEq, Debug, Hash, Serialize, Deserialize)]
 pub(crate) struct ClauseId(NonZeroU32);
 
 impl ClauseId {

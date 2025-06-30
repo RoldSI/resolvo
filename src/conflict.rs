@@ -10,6 +10,7 @@ use petgraph::{
     graph::{DiGraph, EdgeIndex, EdgeReference, NodeIndex},
     visit::{Bfs, DfsPostOrder, EdgeRef},
 };
+use serde::{Deserialize, Serialize};
 
 use crate::solver::variable_map::VariableOrigin;
 use crate::{
@@ -23,7 +24,7 @@ use crate::{
 };
 
 /// Represents the cause of the solver being unable to find a solution
-#[derive(Debug)]
+#[derive(Debug, Serialize, Deserialize)]
 pub struct Conflict {
     /// The clauses involved in an unsatisfiable conflict
     clauses: Vec<ClauseId>,
